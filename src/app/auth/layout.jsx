@@ -13,16 +13,16 @@ export default function AuthLayout({ children }) {
           >
             Rofabs LLP.
           </Link>
-          <div className="border rounded-full border-slate-600 bg-[rgba(225,225,225,0.2)] backdrop-blur-3xl p-2 grid grid-cols-2 gap-1 items-center absolute top-3 right-3">
+          <div className="border rounded-full border-slate-600 bg-[rgba(225,225,225,0.2)] backdrop-blur-3xl p-2 grid grid-cols-2 gap-1 items-center absolute top-3 right-3 text-sm">
             <Link
               href="/auth/sign-in"
-              className="flex items-center justify-center py-3 px-6 rounded-full text-center bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900 text-white border border-slate-50/50"
+              className="flex items-center justify-center py-2 px-4 rounded-full text-center bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900 text-white border border-slate-50/50"
             >
               Login
             </Link>
             <Link
               href="/auth/sign-up"
-              className="flex items-center py-3 px-6 rounded-full text-center hover:bg-[rgba(225,225,225,0.1)] text-blue-50"
+              className="flex items-center py-2 px-4 rounded-full text-center text-blue-50"
             >
               New User
             </Link>
