@@ -13,8 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={dmSans.className}>
-        <UIProvider>{children}
-        </UIProvider>
+        <UIProvider>{children}</UIProvider>
       </body>
     </html>
   );
