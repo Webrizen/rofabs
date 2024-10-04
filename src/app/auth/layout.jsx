@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function AuthLayout({ children }) {
   return (
     <>
-      <div className="container relative md:min-h-screen flex flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:p-10 bg-gradient-to-bl from-rose-100 to-teal-100 bg-center bg-cover">
-        <div className="relative hidden h-full flex-col bg-muted p-10 rounded-[30px] overflow-hidden bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-900 via-blue-950 to-slate-950 text-white lg:flex dark:border-r dark:border-slate-700">
+      <div className="container relative md:min-h-screen flex flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:p-10 p-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#031264] via-[#182e9f] to-slate-950 bg-center bg-cover">
+        <div className="relative h-full flex-col bg-muted p-10 rounded-[30px] overflow-hidden text-white lg:flex dark:border-r dark:border-slate-700">
           <div className="absolute inset-0 bg-[url('/bg-login.svg')] bg-center bg-cover rounded-br-full" />
           <Link
             href="/"
@@ -13,20 +13,6 @@ export default function AuthLayout({ children }) {
           >
             Rofabs LLP.
           </Link>
-          <div className="border rounded-full border-slate-600 bg-[rgba(225,225,225,0.2)] backdrop-blur-3xl p-2 grid grid-cols-2 gap-1 items-center absolute top-3 right-3 text-sm">
-            <Link
-              href="/auth/sign-in"
-              className="flex items-center justify-center py-2 px-4 rounded-full text-center bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900 text-white border border-slate-50/50"
-            >
-              Login
-            </Link>
-            <Link
-              href="/auth/sign-up"
-              className="flex items-center py-2 px-4 rounded-full text-center text-blue-50"
-            >
-              New User
-            </Link>
-          </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
@@ -39,9 +25,11 @@ export default function AuthLayout({ children }) {
             </blockquote>
           </div>
         </div>
-        <div className="lg:p-8">
-          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-full">
+        <div className="lg:px-8 md:mt-0 mt-20">
+          <div className="mx-auto flex w-full flex-col justify-start items-start space-y-6 sm:w-full relative">
             {children}
+            <div className="block h-[360px] w-[360px] overflow-hidden border-blue-700 rounded-[40%_60%_60%_40%/55%_67%_33%_45%] transition-all duration-500 bg-gradient-to-tr from-indigo-900 to-cyan-500 absolute left-2 -top-16 z-0"></div>
+            <div className="block h-[360px] w-[360px] overflow-hidden border-blue-700 rounded-[40%_60%_60%_40%/55%_67%_33%_45%] transition-all duration-500 bg-gradient-to-tr from-indigo-900 to-cyan-500 absolute right-2 bottom-2 z-0"></div>
             <p className="px-8 text-center text-sm text-muted-foreground sm:w-[320px] mx-auto">
               By clicking continue, you agree to our{" "}
               <Link
