@@ -153,12 +153,12 @@ export default function DashboardLayout({ children }) {
       disableTransitionOnChange
     >
       <Navbar />
-      <section className="w-full md:mt-0 mt-4">
-        <div className="container mx-auto grid md:grid-cols-[.3fr_1fr] grid-cols-1 gap-2">
-          <div className="w-full">
+      <section className="w-full md:mt-0 mt-4 h-[92vh]">
+        <div className="container mx-auto grid md:grid-cols-[.3fr_1fr] grid-cols-1 gap-2 h-full">
+          <div className="w-full bg-[rgba(225,225,225,0.1)] backdrop-blur-3xl h-full z-50">
             <Sidebar items={menuStructure} />
           </div>
-          <div className="w-full md:p-5">{children}</div>
+          <div className="w-full md:p-5 p-1 z-10">{children}</div>
         </div>
       </section>
     </ThemeProvider>
