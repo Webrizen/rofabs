@@ -2,8 +2,26 @@ import React from "react";
 import Sidebar from "@/components/system/Sidebar";
 import Navbar from "@/components/system/Navbar";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { CalendarIcon, ChartArea, ChartBar, Clipboard, FunctionSquare, HomeIcon, LayoutDashboard, Settings, SquarePlay, UserCircleIcon, UsersIcon, WrenchIcon } from "lucide-react";
-import { IconAdjustments, IconChartBubbleFilled, IconExclamationCircle, IconUsersGroup } from "@tabler/icons-react";
+import {
+  CalendarIcon,
+  ChartArea,
+  ChartBar,
+  Clipboard,
+  FunctionSquare,
+  HomeIcon,
+  LayoutDashboard,
+  Settings,
+  SquarePlay,
+  UserCircleIcon,
+  UsersIcon,
+  WrenchIcon,
+} from "lucide-react";
+import {
+  IconAdjustments,
+  IconChartBubbleFilled,
+  IconExclamationCircle,
+  IconUsersGroup,
+} from "@tabler/icons-react";
 
 const menuStructure = [
   {
@@ -16,34 +34,34 @@ const menuStructure = [
         submenu: [
           { title: "Create New Booking", href: "/bookings/create" },
           { title: "Manage Existing Bookings", href: "/bookings/manage" },
-          { title: "Booking Reports", href: "/bookings/reports" }
-        ]
+          { title: "Booking Reports", href: "/bookings/reports" },
+        ],
       },
       {
         title: "Inventory",
         icon: <Clipboard className="h-5 w-5" />,
         submenu: [
           { title: "Manage Items", href: "/inventory/manage" },
-          { title: "Inventory Reports", href: "/inventory/reports" }
-        ]
+          { title: "Inventory Reports", href: "/inventory/reports" },
+        ],
       },
       {
         title: "Properties",
         icon: <HomeIcon className="h-5 w-5" />,
         submenu: [
           { title: "Property List", href: "/properties/list" },
-          { title: "Property Details", href: "/properties/details" }
-        ]
+          { title: "Property Details", href: "/properties/details" },
+        ],
       },
       {
         title: "Room Types",
         icon: <SquarePlay className="h-5 w-5" />,
         submenu: [
           { title: "Room Type List", href: "/room-types/list" },
-          { title: "Room Type Details", href: "/room-types/details" }
-        ]
-      }
-    ]
+          { title: "Room Type Details", href: "/room-types/details" },
+        ],
+      },
+    ],
   },
   {
     title: "User and Resources",
@@ -54,8 +72,8 @@ const menuStructure = [
         icon: <IconUsersGroup className="h-5 w-5" />,
         submenu: [
           { title: "User Accounts", href: "/users/accounts" },
-          { title: "User Roles", href: "/users/roles" }
-        ]
+          { title: "User Roles", href: "/users/roles" },
+        ],
       },
       {
         title: "Material Management",
@@ -63,8 +81,8 @@ const menuStructure = [
         submenu: [
           { title: "Material Inventory", href: "/materials/inventory" },
           { title: "Purchase Orders", href: "/materials/purchase-orders" },
-          { title: "Supplier Management", href: "/materials/suppliers" }
-        ]
+          { title: "Supplier Management", href: "/materials/suppliers" },
+        ],
       },
       {
         title: "Employee Management",
@@ -72,10 +90,10 @@ const menuStructure = [
         submenu: [
           { title: "Employee Directory", href: "/employees/directory" },
           { title: "Time & Attendance", href: "/employees/time-attendance" },
-          { title: "Payroll", href: "/employees/payroll" }
-        ]
-      }
-    ]
+          { title: "Payroll", href: "/employees/payroll" },
+        ],
+      },
+    ],
   },
   {
     title: "Banquet Management",
@@ -83,8 +101,8 @@ const menuStructure = [
     submenu: [
       { title: "Event Planning", href: "/banquet/event-planning" },
       { title: "Catering", href: "/banquet/catering" },
-      { title: "Banquet Hall Bookings", href: "/banquet/hall-bookings" }
-    ]
+      { title: "Banquet Hall Bookings", href: "/banquet/hall-bookings" },
+    ],
   },
   {
     title: "Maintenance and Support",
@@ -96,26 +114,26 @@ const menuStructure = [
         submenu: [
           { title: "Work Orders", href: "/maintenance/work-orders" },
           { title: "Preventive Maintenance", href: "/maintenance/preventive" },
-          { title: "Vendor Management", href: "/maintenance/vendors" }
-        ]
+          { title: "Vendor Management", href: "/maintenance/vendors" },
+        ],
       },
       {
         title: "Damages",
         icon: <IconExclamationCircle className="h-5 w-5" />,
         submenu: [
           { title: "Damage Reports", href: "/damages/reports" },
-          { title: "Claims Processing", href: "/damages/claims" }
-        ]
+          { title: "Claims Processing", href: "/damages/claims" },
+        ],
       },
       {
         title: "Complaints",
         icon: <ChartArea className="h-5 w-5" />,
         submenu: [
           { title: "Complaint Management", href: "/complaints/manage" },
-          { title: "Resolution Tracking", href: "/complaints/tracking" }
-        ]
-      }
-    ]
+          { title: "Resolution Tracking", href: "/complaints/tracking" },
+        ],
+      },
+    ],
   },
   {
     title: "Settings and Administration",
@@ -128,8 +146,8 @@ const menuStructure = [
           { title: "General Settings", href: "/settings/general" },
           { title: "User Preferences", href: "/settings/preferences" },
           { title: "Security Settings", href: "/settings/security" },
-          { title: "Integrations", href: "/settings/integrations" }
-        ]
+          { title: "Integrations", href: "/settings/integrations" },
+        ],
       },
       {
         title: "Reports",
@@ -137,11 +155,11 @@ const menuStructure = [
         submenu: [
           { title: "Custom Reports", href: "/reports/custom" },
           { title: "Scheduled Reports", href: "/reports/scheduled" },
-          { title: "Analytics", href: "/reports/analytics" }
-        ]
-      }
-    ]
-  }
+          { title: "Analytics", href: "/reports/analytics" },
+        ],
+      },
+    ],
+  },
 ];
 
 export default function DashboardLayout({ children }) {
@@ -153,12 +171,10 @@ export default function DashboardLayout({ children }) {
       disableTransitionOnChange
     >
       <Navbar />
-      <section className="w-full md:mt-0 mt-4 h-[92vh]">
-        <div className="container mx-auto grid md:grid-cols-[.3fr_1fr] grid-cols-1 gap-2 h-full">
-          <div className="w-full bg-[rgba(225,225,225,0.1)] backdrop-blur-3xl h-full z-50">
-            <Sidebar items={menuStructure} />
-          </div>
-          <div className="w-full md:p-5 p-1 z-10">{children}</div>
+      <section className="w-full md:mt-0 h-[91vh]">
+        <div className="container mx-auto md:grid md:grid-cols-[.3fr_1fr] flex flex-col gap-2 h-full">
+          <Sidebar items={menuStructure} className="border-b-3 rounded-br-2xl" />
+          <div className="w-full md:p-5 p-1 h-full overflow-y-auto scrollbar-hide">{children}</div>
         </div>
       </section>
     </ThemeProvider>

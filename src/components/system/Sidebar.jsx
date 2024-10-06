@@ -138,7 +138,7 @@ export default function Sidebar({ className, items, ...props }) {
     <>
       <motion.button
         onClick={toggleSidebar}
-        className="lg:hidden fixed -top-[70px] left-4 z-50 p-2.5 rounded-md bg-gray-100 dark:bg-transparent dark:hover:bg-[rgba(225,225,225,0.1)] backdrop-blur-3xl  text-gray-800 dark:text-gray-200"
+        className="lg:hidden fixed top-2 left-2 z-[9999999] p-2.5 rounded-md bg-gray-100 dark:bg-transparent dark:hover:bg-[rgba(225,225,225,0.1)] backdrop-blur-3xl  text-gray-800 dark:text-gray-200"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -162,7 +162,7 @@ export default function Sidebar({ className, items, ...props }) {
         animate={{ x: isSidebarOpen ? 0 : "-100%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className={cn(
-          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 h-full py-3 overflow-y-auto overflow-x-hidden lg:translate-x-0 bg-white dark:bg-transparent rounded-xl flex-col justify-between px-4 lg:transition-none ease-linear md:sticky fixed md:top-[50px] mt-0 w-full z-50",
+          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 h-full py-3 overflow-y-auto overflow-x-hidden lg:translate-x-0 bg-white dark:bg-transparent flex-col justify-between px-4 lg:transition-none ease-linear md:sticky fixed md:top-[50px] mt-0 w-full z-[9999999] md:border-r-3 md:border-white/10",
           className
         )}
         {...props}
@@ -192,7 +192,7 @@ export default function Sidebar({ className, items, ...props }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden"
             onClick={closeSidebar}
           />
         )}
