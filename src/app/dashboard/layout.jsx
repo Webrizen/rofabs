@@ -25,41 +25,28 @@ import {
 
 const menuStructure = [
   {
-    title: "Core Operations",
+    title: "Front Desk",
     icon: <LayoutDashboard className="h-5 w-5" />,
     submenu: [
       {
         title: "Bookings",
         icon: <CalendarIcon className="h-5 w-5" />,
-        submenu: [
-          { title: "Create New Booking", href: "/bookings/create" },
-          { title: "Manage Existing Bookings", href: "/bookings/manage" },
-          { title: "Booking Reports", href: "/bookings/reports" },
-        ],
+        href: "/dashboard/bookings",
       },
       {
         title: "Inventory",
         icon: <Clipboard className="h-5 w-5" />,
-        submenu: [
-          { title: "Manage Items", href: "/inventory/manage" },
-          { title: "Inventory Reports", href: "/inventory/reports" },
-        ],
+        href: "/dashboard/inventory",
       },
       {
         title: "Properties",
         icon: <HomeIcon className="h-5 w-5" />,
-        submenu: [
-          { title: "Property List", href: "/properties/list" },
-          { title: "Property Details", href: "/properties/details" },
-        ],
+        href: "/dashboard/properties",
       },
       {
         title: "Room Types",
         icon: <SquarePlay className="h-5 w-5" />,
-        submenu: [
-          { title: "Room Type List", href: "/room-types/list" },
-          { title: "Room Type Details", href: "/room-types/details" },
-        ],
+        href: "/dashboard/room-types",
       },
     ],
   },
@@ -173,8 +160,13 @@ export default function DashboardLayout({ children }) {
       <Navbar />
       <section className="w-full md:mt-0 h-[91vh]">
         <div className="container mx-auto md:grid md:grid-cols-[.3fr_1fr] flex flex-col gap-2 h-full">
-          <Sidebar items={menuStructure} className="border-b-3 rounded-br-2xl" />
-          <div className="w-full md:p-5 p-1 h-full overflow-y-auto scrollbar-hide">{children}</div>
+          <Sidebar
+            items={menuStructure}
+            className="border-b-3 rounded-br-2xl"
+          />
+          <div className="w-full md:p-5 p-1 h-full overflow-y-auto scrollbar-hide">
+            {children}
+          </div>
         </div>
       </section>
     </ThemeProvider>
