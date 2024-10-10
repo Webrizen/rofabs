@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -13,9 +13,65 @@ import Image from "next/image";
 import Link from "next/link";
 import { EyeIcon, EyeOff } from "lucide-react";
 import Rofabs from "@/assets/logo.png";
+import { useToast } from "@/hooks/use-toast";
+import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation";
 
 export default function UserAuthForm() {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    // Prevent duplicate submissions
+    if (isLoading) return;
+
+    setIsLoading(true); // Set loading state
+    try {
+      const response = await fetch("https://api.appostel.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // Handle successful login
+        Cookies.set("token", data.data.token, { expires: 7 });
+        toast({
+          title: "Success",
+          description: "Logged in successfully!",
+          status: "success",
+        });
+        router.push("/dashboard")
+      } else {
+        // Handle errors like invalid credentials or server issues
+        toast({
+          title: "Error",
+          description: data.error || "Login failed. Please try again.",
+          status: "error",
+        });
+      }
+    } catch (error) {
+      // Handle network or unexpected errors
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        status: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="w-full flex gap-3 flex-col z-50 max-w-[500px] mx-auto bg-[rgba(225,225,225,0.2)] text-white backdrop-blur-3xl rounded-2xl p-8">
       <div className="flex flex-col space-y-2 text-center">
@@ -42,8 +98,14 @@ export default function UserAuthForm() {
           variant="underlined"
           classNames={{
             label: "!text-white",
-            input: ["!text-white", "placeholder:text-white/60", "bg-transparent",],
+            input: [
+              "!text-white",
+              "placeholder:text-white/60",
+              "bg-transparent",
+            ],
           }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="flex flex-col space-y-2">
@@ -68,8 +130,15 @@ export default function UserAuthForm() {
           type={isVisible ? "text" : "password"}
           classNames={{
             label: "!text-white",
-            input: ["!text-white", "placeholder:text-white/60", "bg-transparent", "max-w-full"],
+            input: [
+              "!text-white",
+              "placeholder:text-white/60",
+              "bg-transparent",
+              "max-w-full",
+            ],
           }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
       <div className="flex flex-row gap-4 justify-between items-center mt-2">
@@ -85,8 +154,11 @@ export default function UserAuthForm() {
           size="lg"
           radius="sm"
           className="w-full bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900 text-white"
+          onClick={handleLogin}
+          isLoading={isLoading}
+          disabled={isLoading}
         >
-          Sign In
+          {isLoading ? "Signing In..." : "Sign In"}
         </Button>
       </div>
       <div className="flex flex-row gap-4 justify-between items-center mt-2">
