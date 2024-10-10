@@ -46,6 +46,7 @@ export default function UserAuthForm() {
       if (response.ok) {
         // Handle successful login
         Cookies.set("token", data.data.token, { expires: 7 });
+        Cookies.set("user", data.data.uniqueId, { expires: 7 });
         toast({
           title: "Success",
           description: "Logged in successfully!",

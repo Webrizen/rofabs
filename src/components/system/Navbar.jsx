@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Dropdown,
@@ -7,6 +7,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Input,
+  Spinner,
 } from "@nextui-org/react";
 import Link from "next/link";
 import Logo from "@/assets/logo.png";
@@ -14,6 +15,8 @@ import { Moon, Search, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Combobox from "@/components/ui/combobox";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const data = [
   {
@@ -36,10 +39,55 @@ const data = [
     value: "astro",
     label: "Astro",
   },
-]
+];
 
 const Navbar = () => {
   const { setTheme } = useTheme();
+  const router = useRouter();
+  const [userData, setUserData] = useState(null);
+
+  // Fetch user data from API
+  useEffect(() => {
+    const fetchUserData = async () => {
+      // Get user ID and token from cookies
+      const userId = Cookies.get("user");
+      const token = Cookies.get("token");
+
+      if (userId) {
+        try {
+          // Make the GET request to the API
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}`,
+            {
+              headers: {
+                "x-auth": token,
+              },
+            }
+          );
+
+          const result = await response.json();
+          if (response.ok) {
+            setUserData(result.data);
+          } else {
+            console.error(result.error || "Failed to fetch data");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Logout function
+  const logout = () => {
+    // Remove the token from cookies
+    Cookies.remove("token");
+    Cookies.remove("user");
+    // Redirect to login page
+    router.push("/auth");
+  };
 
   return (
     <header className="px-3 py-2 bg-[rgba(225,225,225,0.1)] backdrop-blur-3xl z-50">
@@ -91,60 +139,25 @@ const Navbar = () => {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          {/* {isAuthenticated ? (
-            <Dropdown placement="bottom-end" backdrop="blur">
-              <DropdownTrigger>
-                <Avatar className="cursor-pointer h-8 w-auto">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="User Menu">
-                <DropdownItem
-                  key="profile"
-                  description="View your profile"
-                  href="/profile"
-                >
-                  Profile
-                </DropdownItem>
-                <DropdownItem
-                  key="settings"
-                  description="Adjust your preferences"
-                  showDivider
-                  href="/settings"
-                >
-                  Settings
-                </DropdownItem>
-                <DropdownItem
-                  key="logout"
-                  description="Sign out of your account"
-                  className="text-danger"
-                  color="danger"
-                  onClick={logout}
-                >
-                  Logout
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          ) : (
-            <Button className="rounded hover:backdrop-blur-lg">
-              <Link href="/auth">Login</Link>
-            </Button>
-          )} */}
           <Dropdown placement="bottom-end" backdrop="blur">
             <DropdownTrigger>
               <div className="p-1 flex flex-col items-start gap-2 w-min whitespace-nowrap cursor-pointer hover:bg-slate-100 dark:hover:bg-[rgba(225,225,225,0.1)] hover:backdrop-blur-3xl rounded-xl overflow-hidden">
+              {userData ? (
                 <div className="flex items-center gap-2 relative">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>JD</AvatarFallback>
+                    <AvatarImage src={userData?.profile_pic || "https://github.com/shadcn.png"} />
+                    <AvatarFallback>N/A</AvatarFallback>
                   </Avatar>
-                  <div className="absolute bottom-0 right-045 h-3 w-3 rounded-full border-2 border-background bg-green-500" />
+                  {userData?.isActive ? <div className="absolute bottom-0 right-045 h-3 w-3 rounded-full border-2 border-background bg-green-500" /> : <div className="absolute bottom-0 right-045 h-3 w-3 rounded-full border-2 border-background bg-slate-500" />}
+                  
                   <div className="grid gap-0.5 leading-none">
-                    <div className="text-sm font-semibold">John Doe</div>
+                    <div className="text-sm font-semibold">{userData?.fname} {userData?.lname}</div>
                     <div className="text-xs text-muted-foreground">Admin</div>
                   </div>
                 </div>
+              ) : (
+                <Spinner />
+              )}
               </div>
             </DropdownTrigger>
             <DropdownMenu aria-label="User Menu">
@@ -165,6 +178,7 @@ const Navbar = () => {
               </DropdownItem>
               <DropdownItem
                 key="logout"
+                onClick={logout}
                 description="Sign out of your account"
                 className="text-danger"
                 color="danger"
