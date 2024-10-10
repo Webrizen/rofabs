@@ -29,9 +29,9 @@ export default function UserAuthForm() {
     // Prevent duplicate submissions
     if (isLoading) return;
 
-    setIsLoading(true); // Set loading state
+    setIsLoading(true);
     try {
-      const response = await fetch("https://api.appostel.com/login", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

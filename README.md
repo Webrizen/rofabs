@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Authentication Flow for Rofabs
 
-## Getting Started
+In this project, we've implemented a basic authentication system using Next.js with cookie-based session management. This flow ensures users are authenticated and able to access protected routes once they log in successfully.
 
-First, run the development server:
+### 1. **Login Component (`/components/UserAuthForm.js`)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Purpose**: The login component allows users to input their credentials (email and password) and submit them to the backend for authentication.
+- **How it Works**:
+  - On form submission, the credentials are sent via a `POST` request to the authentication endpoint (`${process.env.NEXT_PUBLIC_API_URL}/login`).
+  - If authentication is successful, a token (JWT) is returned in the response, which is then stored in cookies.
+  - The user is notified of success or failure using the `useToast` hook for feedback.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. **Storing Token in Cookies**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Why Cookies?**: 
+  Cookies are used to store the JWT token because it allows us to maintain user sessions on the client-side. The token is stored securely for subsequent API requests and route protection.
+  
+- **How it’s Stored**: 
+  Upon a successful login, we store the JWT token in the cookies using the `js-cookie` package. Cookies are set with a 7-day expiry to allow users to stay logged in unless they explicitly log out or the cookie expires.
+  
+  - **Code Path**: 
+    After login, the cookie is set inside the `handleLogin` function in `UserAuthForm.js`.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 3. **Protected Routes (Middleware - `/middleware.js`)**
 
-## Learn More
+- **Purpose**: Middleware is responsible for protecting certain routes by verifying whether the user is authenticated. It ensures that only users with a valid token can access sensitive or restricted areas like the dashboard.
+  
+- **How It Works**:
+  - The middleware checks for the presence of a JWT token in the cookies.
+  - If the token is missing or invalid, the user is redirected to the login page.
+  - If the token is present, the request proceeds to the next stage, allowing access to the protected route.
+  
+  - **Code Path**: The middleware is located in `/middleware.js` and is applied to specific paths, such as `/dashboard`.
 
-To learn more about Next.js, take a look at the following resources:
+### 4. **Token Validation and API Requests**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Using the Token**: 
+  When making further API requests from protected pages, we retrieve the token from cookies and include it in the request headers as a Bearer token for authentication. This ensures that the backend knows which user is making the request.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **File References**:
+  - To access and use the token in a component, import `Cookies` from `js-cookie`, retrieve the token, and include it in API requests. For example, this could be done in any component that interacts with protected APIs.
 
-## Deploy on Vercel
+### 5. **Logout and Token Removal**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Purpose**: When a user logs out, the token needs to be removed from the cookies to ensure the session ends, and the user no longer has access to protected routes.
+  
+- **Implementation**:
+  - Upon logout, we remove the cookie containing the token using `js-cookie`. After this, the user is typically redirected back to the login page.
+  
+  - **Code Path**: This can be implemented in the logout functionality, typically found in a navigation bar or account settings page.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 6. **Redirect on Authentication Failure**
+
+- **How it Works**: 
+  If the user tries to access a protected route (e.g., `/dashboard`) without being logged in, the middleware automatically redirects them to the login page.
+  
+  - **Code Path**: This logic is part of the middleware in `/middleware.js`.
+
+### Summary of Authentication Workflow:
+
+1. **Login**: User inputs email and password → Form submission triggers API call → On success, token is stored in cookies.
+2. **Protected Routes**: Middleware checks for token in cookies → Allows access if token is valid, otherwise redirects to login.
+3. **API Requests**: When fetching protected resources, include the token from cookies in the headers for authentication.
+4. **Logout**: Clear the token from cookies on user logout to end the session.
+
+This system provides secure session management while ensuring ease of use with cookie-based authentication.
